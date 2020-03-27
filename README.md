@@ -11,3 +11,7 @@
 * PHP 7.4
 
 ## Quickstart
+
+First, install dependencies using the following command:
+
+`composer install`
