@@ -19,3 +19,5 @@ Auth::routes();
 Route::get('/', 'HomeController@index');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/users', 'HomeController@users');
+
+Route::get('/send-request/{id}', 'InviteController@sendRequest');
