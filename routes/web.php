@@ -21,3 +21,4 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/users', 'HomeController@users');
 
 Route::get('/send-request/{id}', 'InviteController@sendRequest');
+Route::get('/requests', 'InviteController@getRequests');
