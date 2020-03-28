@@ -15,6 +15,7 @@
                     @endif
 
                     You are logged in!
+                        <a class="nav-link" href="{{ url('users') }}">{{ __('All Users') }}</a>
                 </div>
             </div>
         </div>
