@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\REST;
 
+use App\Friend;
 use App\Http\Controllers\Controller;
 use App\Invite;
 use Illuminate\Http\Request;
 
 class InviteController extends Controller
 {
+    const STATUS_APPROVED = "Approved";
+    const STATUS_DECLINED = "Declined";
     /**
      * Send Request
      * @param Request $request
@@ -45,5 +48,59 @@ class InviteController extends Controller
             ->all();
 
         return ['requests' => $requests];
+    }
+
+    /**
+     * Accept request
+     *
+     * @param Request $request
+     * @return array
+     */
+    public function acceptRequest(Request $request)
+    {
+
+        $idSent = $request->route('idSent');
+        $idReceive = $request->route('idReceive');
+
+        // find invitation
+        $invite = Invite::where('user_id_receive', '=', $idReceive)
+            ->where('user_id_sent', '=', $idSent)
+            ->first();
+
+        // set to Approved
+        $invite->status = self::STATUS_APPROVED;
+        $invite->save();
+
+        // create friend object
+        $friend = new Friend();
+        $friend->main_user = $idSent;
+        $friend->friend_id = $idReceive;
+        $friend->save();
+
+        return ['Successfully updated invitation & created friend', 'friend' => $friend];
+
+    }
+
+    /**
+     * Decline request
+     *
+     * @param Request $request
+     * @return array
+     */
+    public function declineRequest(Request $request)
+    {
+        $idSent = $request->route('idSent');
+        $idReceive = $request->route('idReceive');
+
+        // find invitation
+        $invite = Invite::where('user_id_receive', '=', $idReceive)
+            ->where('user_id_sent', '=', $idSent)
+            ->first();
+
+        // set to Declined
+        $invite->status = self::STATUS_DECLINED;
+        $invite->save();
+
+        return ['Invitation is declined', 'invite' => $invite];
     }
 }

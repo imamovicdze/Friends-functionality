@@ -22,3 +22,5 @@ Route::get('friends', 'REST\FriendController@friends');
 
 Route::get('send-request&{idSent}&{idReceive}&{status}', 'REST\InviteController@sendRequest');
 Route::get('requests&{idReceive}&{status}', 'REST\InviteController@getRequests');
+Route::get('accept&{idSent}&{idReceive}', 'REST\InviteController@acceptRequest');
+Route::get('decline&{idSent}&{idReceive}', 'REST\InviteController@declineRequest');
