@@ -14,6 +14,16 @@ use Illuminate\View\View;
 class InviteController extends Controller
 {
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
      * Send friend request to another user
      *
      * @param Request $request
