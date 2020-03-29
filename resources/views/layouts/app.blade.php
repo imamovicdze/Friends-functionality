@@ -36,7 +36,10 @@
                                 <a class="nav-link" href="{{ url('users') }}">{{ __('Users') }}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ url('requests') }}">{{ __('Friend Requests') }}</a>
+                                <a class="nav-link" href="{{ url('requests') }}">{{ __('Requests') }}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url('friends') }}">{{ __('Friends') }}</a>
                             </li>
                         @endauth
                     </ul>

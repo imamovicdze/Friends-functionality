@@ -16,6 +16,8 @@
 
                     You are logged in!
                         <a class="nav-link" href="{{ url('users') }}">{{ __('All Users') }}</a>
+                        <a class="nav-link" href="{{ url('requests') }}">{{ __('All Requests') }}</a>
+                        <a class="nav-link" href="{{ url('friends') }}">{{ __('All Friends') }}</a>
                 </div>
             </div>
         </div>

@@ -23,3 +23,7 @@ Route::get('/users', 'HomeController@users');
 Route::get('/send-request/{id}', 'InviteController@sendRequest');
 Route::get('/requests', 'InviteController@getRequests');
 Route::get('/accept/{id}', 'InviteController@acceptRequest');
+Route::get('/decline/{id}', 'InviteController@declineRequest');
+
+Route::get('/friends', 'FriendController@getFriends');
+

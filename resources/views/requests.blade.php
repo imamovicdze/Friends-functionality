@@ -9,6 +9,11 @@
                         <button type="button" class="close" data-dismiss="alert">×</button>
                         <strong>{{ $message }}</strong>
                     </div>
+                @elseif ($message = Session::get('info'))
+                    <div class="alert alert-info alert-block">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <strong>{{ $message }}</strong>
+                    </div>
                 @endif
                 <table class="table table-striped">
                     <tr>
@@ -22,7 +27,7 @@
                             <td>{{ $request->status }}</td>
                             <td>
                                 <a href="/accept/{{ $request->user_id_sent }}" class="btn btn-success" role="button">Accept</a>
-                                <a href="#0" class="btn btn-danger" role="button">Decline</a>
+                                <a href="/decline/{{ $request->user_id_sent }}" class="btn btn-danger" role="button">Decline</a>
                             </td>
                         </tr>
                     @endforeach

@@ -96,4 +96,27 @@ class InviteController extends Controller
 
         return Redirect::back()->with('success', 'You are now friends!');
     }
+
+    /**
+     * Decline request
+     *
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function declineRequest(Request $request)
+    {
+        $currentId = Auth::id();
+        $idRequest = $request->route('id');
+
+        // find invitation
+        $invite = Invite::where('user_id_receive', '=', $currentId)
+            ->where('user_id_sent', '=', $idRequest)
+            ->first();
+
+        // set to Declined
+        $invite->status = self::STATUS_DECLINED;
+        $invite->save();
+
+        return Redirect::back()->with('info', 'You declined request!');
+    }
 }
