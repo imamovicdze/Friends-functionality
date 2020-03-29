@@ -10,7 +10,7 @@ use Symfony\Component\Console\Input\Input;
 class FriendController extends Controller
 {
     /**
-     * Get Friends
+     * Get All Friends
      *
      */
     public function friends()
