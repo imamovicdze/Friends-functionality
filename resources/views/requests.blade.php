@@ -21,13 +21,13 @@
                         <th>Status</th>
                         <th>Action</th>
                     </tr>
-                    @foreach ($requests as $request)
+                    @foreach ($users as $user)
                         <tr>
-                            <td>UserId: {{ $request->user_id_sent }}</td>
-                            <td>{{ $request->status }}</td>
+                            <td>{{ $user->name }}</td>
+                            <td>Pending</td>
                             <td>
-                                <a href="/accept/{{ $request->user_id_sent }}" class="btn btn-success" role="button">Accept</a>
-                                <a href="/decline/{{ $request->user_id_sent }}" class="btn btn-danger" role="button">Decline</a>
+                                <a href="/accept/{{ $user->id }}" class="btn btn-success" role="button">Accept</a>
+                                <a href="/decline/{{ $user->id }}" class="btn btn-danger" role="button">Decline</a>
                             </td>
                         </tr>
                     @endforeach

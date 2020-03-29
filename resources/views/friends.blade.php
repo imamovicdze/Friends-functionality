@@ -8,9 +8,9 @@
                     <tr>
                         <th>Friends</th>
                     </tr>
-                    @foreach ($friends as $friend)
+                    @foreach ($users as $user)
                         <tr>
-                            <td>UserId: {{ $friend->friend_id }}</td>
+                            <td>{{ $user->name }}</td>
                         </tr>
                     @endforeach
                 </table>

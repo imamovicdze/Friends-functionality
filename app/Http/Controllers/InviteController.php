@@ -60,12 +60,14 @@ class InviteController extends Controller
     {
         $currentId = Auth::id();
 
-        $requests = Invite::all()
+        $users = DB::table('users')
+            ->join('invites', 'invites.user_id_sent', '=', 'users.id')
             ->where('user_id_receive', '=', $currentId)
-            ->where('status', '=', self::STATUS_PENDING)
-            ->all();
+            ->where('status','=', self::STATUS_PENDING)
+            ->select('users.*')
+            ->get();
 
-        return view('requests', ['requests' => $requests]);
+        return view('requests', ['users' => $users]);
     }
 
     /**
@@ -111,6 +113,7 @@ class InviteController extends Controller
         // find invitation
         $invite = Invite::where('user_id_receive', '=', $currentId)
             ->where('user_id_sent', '=', $idRequest)
+            ->orderBy('created_at', 'desc')
             ->first();
 
         // set to Declined

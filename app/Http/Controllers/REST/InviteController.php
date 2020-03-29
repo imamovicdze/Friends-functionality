@@ -96,6 +96,7 @@ class InviteController extends Controller
         // find invitation
         $invite = Invite::where('user_id_receive', '=', $idReceive)
             ->where('user_id_sent', '=', $idSent)
+            ->orderBy('created_at', 'desc')
             ->first();
 
         // set to Declined

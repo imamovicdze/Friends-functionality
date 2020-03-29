@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Friend;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class FriendController extends Controller
 {
@@ -26,11 +27,12 @@ class FriendController extends Controller
     {
         $currentId = Auth::id();
 
-        // find invitation
-        $friends = Friend::all()
+        $users = DB::table('users')
+            ->join('friends', 'friends.friend_id', '=', 'users.id')
             ->where('main_user', '=', $currentId)
-            ->all();
+            ->select('users.*')
+            ->get();
 
-        return view('friends', ['friends' => $friends]);
+        return view('friends', ['users' => $users]);
     }
 }
