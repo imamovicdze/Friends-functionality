@@ -17,3 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('friends', 'REST\FriendController@friends');
+
+Route::get('send-request&{idSent}&{idReceive}&{status}', 'REST\InviteController@sendRequest');
+Route::get('requests&{idReceive}&{status}', 'REST\InviteController@getRequests');
