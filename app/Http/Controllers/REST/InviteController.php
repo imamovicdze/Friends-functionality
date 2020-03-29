@@ -11,6 +11,7 @@ class InviteController extends Controller
 {
     const STATUS_APPROVED = "Approved";
     const STATUS_DECLINED = "Declined";
+
     /**
      * Send Request
      * @param Request $request

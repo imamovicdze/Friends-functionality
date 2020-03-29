@@ -16,13 +16,14 @@
                         <th>Email</th>
                         <th>Action</th>
                     </tr>
-                        @foreach ($users as $user)
+                    @foreach ($users as $user)
                         <tr>
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
-                            <td><a href="/send-request/{{ $user->id }}" class="btn btn-outline-dark" role="button">Send request</a></td>
+                            <td><a href="/send-request/{{ $user->id }}" class="btn btn-outline-dark" role="button">Send
+                                    request</a></td>
                         </tr>
-                        @endforeach
+                    @endforeach
                 </table>
             </div>
         </div>
