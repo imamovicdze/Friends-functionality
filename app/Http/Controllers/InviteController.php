@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Friend;
 use App\Invite;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
@@ -61,5 +63,34 @@ class InviteController extends Controller
             ->all();
 
         return view('requests', ['requests' => $requests]);
+    }
+
+    /**
+     * Accept request
+     *
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function acceptRequest(Request $request)
+    {
+        $currentId = Auth::id();
+        $idRequest = $request->route('id');
+
+        // find invitation
+        $invite = Invite::where('user_id_receive', '=', $currentId)
+            ->where('user_id_sent', '=', $idRequest)
+            ->first();
+
+        // set to Approved
+        $invite->status = "Approved";
+        $invite->save();
+
+        // create friend object
+        $friend = new Friend();
+        $friend->main_user = $currentId;
+        $friend->friend_id = $idRequest;
+        $friend->save();
+
+        return Redirect::back()->with('success', 'you are now friends!');
     }
 }
