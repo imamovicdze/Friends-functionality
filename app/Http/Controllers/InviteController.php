@@ -15,6 +15,10 @@ use Illuminate\View\View;
 
 class InviteController extends Controller
 {
+    const STATUS_PENDING = "Pending";
+    const STATUS_APPROVED = "Approved";
+    const STATUS_DECLINED = "Declined";
+
     /**
      * Create a new controller instance.
      *
@@ -36,15 +40,14 @@ class InviteController extends Controller
         $currentId = Auth::id();
         $idRequest = $request->route('id');
 
-
         $model = new Invite();
         $model->user_id_sent = $currentId;
         $model->user_id_receive = $idRequest;
-        $model->status = "Pending";
+        $model->status = self::STATUS_PENDING;
 
         $model->save();
 
-        return Redirect::back()->with('success','Request successfully sent!');
+        return Redirect::back()->with('success', 'Request successfully sent!');
     }
 
     /**
@@ -59,7 +62,7 @@ class InviteController extends Controller
 
         $requests = Invite::all()
             ->where('user_id_receive', '=', $currentId)
-            ->where('status', '=', 'Pending')
+            ->where('status', '=', self::STATUS_PENDING)
             ->all();
 
         return view('requests', ['requests' => $requests]);
@@ -82,7 +85,7 @@ class InviteController extends Controller
             ->first();
 
         // set to Approved
-        $invite->status = "Approved";
+        $invite->status = self::STATUS_APPROVED;
         $invite->save();
 
         // create friend object
@@ -91,6 +94,6 @@ class InviteController extends Controller
         $friend->friend_id = $idRequest;
         $friend->save();
 
-        return Redirect::back()->with('success', 'you are now friends!');
+        return Redirect::back()->with('success', 'You are now friends!');
     }
 }
