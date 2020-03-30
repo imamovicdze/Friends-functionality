@@ -63,7 +63,7 @@ class InviteController extends Controller
         $users = DB::table('users')
             ->join('invites', 'invites.user_id_sent', '=', 'users.id')
             ->where('user_id_receive', '=', $currentId)
-            ->where('status','=', self::STATUS_PENDING)
+            ->where('status', '=', self::STATUS_PENDING)
             ->select('users.*')
             ->get();
 
@@ -71,7 +71,7 @@ class InviteController extends Controller
     }
 
     /**
-     * Accept request
+     * Accept request. If Invite exists, set it to Approved and create Friend object.
      *
      * @param Request $request
      * @return RedirectResponse
@@ -81,16 +81,16 @@ class InviteController extends Controller
         $currentId = Auth::id();
         $idRequest = $request->route('id');
 
-        // find invitation
+        // Find invitation
         $invite = Invite::where('user_id_receive', '=', $currentId)
             ->where('user_id_sent', '=', $idRequest)
             ->first();
 
-        // set to Approved
+        // Set to Approved
         $invite->status = self::STATUS_APPROVED;
         $invite->save();
 
-        // create friend object
+        // Create friend object
         $friend = new Friend();
         $friend->main_user = $idRequest;
         $friend->friend_id = $currentId;
@@ -100,7 +100,7 @@ class InviteController extends Controller
     }
 
     /**
-     * Decline request
+     * Decline request. If Invite exists, set it to Declined.
      *
      * @param Request $request
      * @return RedirectResponse
@@ -110,13 +110,13 @@ class InviteController extends Controller
         $currentId = Auth::id();
         $idRequest = $request->route('id');
 
-        // find invitation
+        // Find invitation
         $invite = Invite::where('user_id_receive', '=', $currentId)
             ->where('user_id_sent', '=', $idRequest)
             ->orderBy('created_at', 'desc')
             ->first();
 
-        // set to Declined
+        // Set to Declined
         $invite->status = self::STATUS_DECLINED;
         $invite->save();
 

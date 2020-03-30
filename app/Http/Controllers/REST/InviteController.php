@@ -14,7 +14,9 @@ class InviteController extends Controller
     const STATUS_DECLINED = "Declined";
 
     /**
-     * Send Request
+     * Send Request. Function get id of user who sent, id of user who receive and status pending.
+     * If users exists create Request (invitation)
+     *
      * @param Request $request
      * @return array
      */
@@ -62,7 +64,8 @@ class InviteController extends Controller
     }
 
     /**
-     * Accept request
+     * Accept request. Function get id of user who sent, id of user who receive.
+     * If Invite exists, set it to Approved and create Friend object.
      *
      * @param Request $request
      * @return array
@@ -96,7 +99,8 @@ class InviteController extends Controller
     }
 
     /**
-     * Decline request
+     * Decline request. Function get id of user who sent, id of user who receive.
+     * If Invite exists, set it to Declined.
      *
      * @param Request $request
      * @return array
