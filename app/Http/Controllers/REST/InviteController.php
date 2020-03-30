@@ -6,6 +6,7 @@ use App\Friend;
 use App\Http\Controllers\Controller;
 use App\Invite;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class InviteController extends Controller
 {
@@ -23,13 +24,22 @@ class InviteController extends Controller
         $idReceive = $request->route('idReceive');
         $status = $request->route('status');
 
-        $model = new Invite();
-        $model->user_id_sent = $idSent;
-        $model->user_id_receive = $idReceive;
-        $model->status = $status;
-        $model->save();
+        $idSentUser = DB::table('users')->where('id', $idSent)->first();
+        $idReceiveUser = DB::table('users')->where('id', $idReceive)->first();
 
-        return ['created', 'model' => $model];
+        // check if exists user
+        if (isset($idSentUser) && isset($idReceiveUser)) {
+            $model = new Invite();
+            $model->user_id_sent = $idSent;
+            $model->user_id_receive = $idReceive;
+            $model->status = $status;
+            $model->save();
+
+            return ['Request send', 'model' => $model];
+
+        } else {
+            return ['Cannot send this invitation!'];
+        }
     }
 
     /**
@@ -63,23 +73,26 @@ class InviteController extends Controller
         $idSent = $request->route('idSent');
         $idReceive = $request->route('idReceive');
 
-        // find invitation
+        // Find invitation
         $invite = Invite::where('user_id_receive', '=', $idReceive)
             ->where('user_id_sent', '=', $idSent)
             ->first();
 
-        // set to Approved
-        $invite->status = self::STATUS_APPROVED;
-        $invite->save();
+        // Set to Approved Invite
+        if (isset($invite)) {
+            $invite->status = self::STATUS_APPROVED;
+            $invite->save();
 
-        // create friend object
-        $friend = new Friend();
-        $friend->main_user = $idSent;
-        $friend->friend_id = $idReceive;
-        $friend->save();
+            // Create friend object
+            $friend = new Friend();
+            $friend->main_user = $idSent;
+            $friend->friend_id = $idReceive;
+            $friend->save();
 
-        return ['Successfully updated invitation & created friend', 'friend' => $friend];
-
+            return ['Successfully updated invitation & created friend', 'friend' => $friend];
+        } else {
+            return ['Cannot find this invitation!'];
+        }
     }
 
     /**
@@ -93,16 +106,20 @@ class InviteController extends Controller
         $idSent = $request->route('idSent');
         $idReceive = $request->route('idReceive');
 
-        // find invitation
+        // Find invitation
         $invite = Invite::where('user_id_receive', '=', $idReceive)
             ->where('user_id_sent', '=', $idSent)
             ->orderBy('created_at', 'desc')
             ->first();
 
-        // set to Declined
-        $invite->status = self::STATUS_DECLINED;
-        $invite->save();
+        // Set to Declined Invite
+        if (isset($invite)) {
+            $invite->status = self::STATUS_DECLINED;
+            $invite->save();
 
-        return ['Invitation is declined', 'invite' => $invite];
+            return ['Invitation is declined', 'invite' => $invite];
+        } else {
+            return ['Cannot find this invitation!'];
+        }
     }
 }

@@ -92,11 +92,11 @@ class InviteController extends Controller
 
         // create friend object
         $friend = new Friend();
-        $friend->main_user = $currentId;
-        $friend->friend_id = $idRequest;
+        $friend->main_user = $idRequest;
+        $friend->friend_id = $currentId;
         $friend->save();
 
-        return Redirect::back()->with('success', 'You are now friends!');
+        return Redirect::back()->with('success', 'Congratulations! You became his friend!');
     }
 
     /**
