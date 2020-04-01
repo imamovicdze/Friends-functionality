@@ -5,6 +5,7 @@ This is solution for task that I received for PHP Developer Position.
 #### To run this application you will need:
 - MAMP or XAMPP or WAMP
 - MYSQL Server (one that come with WAMP ) 
+- Composer [https://getcomposer.org/](https://getcomposer.org/)
 - Chorme or Firefox browser
 
 ## Versions
