@@ -28,8 +28,14 @@ After installing dependencies go to mysql server and create database with name:
 
 When you create database, you should change your parameters in: `.env` file.
 
-After that run command `php artisan migrate` to create tables
+After that run command:
+ 
+ `php artisan key:generate` and 
+ 
+ `php artisan migrate` to create tables
 
-Now you run command `php artisan serve` and go to 
+Now you run command: 
+
+`php artisan serve` and go to 
 
 `http://127.0.0.1:8000/`
