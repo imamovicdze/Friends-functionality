@@ -28,11 +28,13 @@ After installing dependencies go to mysql server and create database with name:
 
 When you create database, you should change your parameters in: `.env` file.
 
-After that run command:
+Now run command:
  
- `php artisan key:generate` and 
+`php artisan key:generate` and 
  
- `php artisan migrate` to create tables
+`php artisan migrate` to create tables.
+
+Run `php artisan db:seed --class=UserSeeder` to populate table 
 
 Now you run command: 
 
