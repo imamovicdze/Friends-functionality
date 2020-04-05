@@ -12,7 +12,7 @@ This is solution for task that I received for PHP Developer Position.
 * PHP 7.4
 * Laravel 7
 
-## Quickstart
+### Mannualy start
 
 You need to download or clone this repo using link below:
 
@@ -24,7 +24,7 @@ Then
 
 After installing dependencies go to mysql server and create database with name:
 
-`friendsapp`
+`friends`
 
 When you create database, you should change your parameters in: `.env` file.
 
@@ -41,3 +41,21 @@ Now you run command:
 `php artisan serve` and go to 
 
 `http://127.0.0.1:8000/`
+
+### Docker start
+
+Create database with name:
+
+`friends`
+
+First we build the docker container and resources with the following command, where test is the name of the container
+and `.` refers to the whole application
+
+`docker build -t test .`
+
+With the following command we run the docker instance inside the container with the parameter `-p`
+that points to the port that the application is going to be using:
+
+`docker run -p 8181:8181 test`
+
+Now go to: **`http://localhost:8181`**

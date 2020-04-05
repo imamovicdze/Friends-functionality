@@ -71,7 +71,7 @@ class InviteController extends Controller
     }
 
     /**
-     * Accept request. If Invite exists, set it to Approved and create Friend object.
+     * Accept request. If Invite exists, set it to Approved and create Friend objects.
      *
      * @param Request $request
      * @return RedirectResponse
@@ -84,6 +84,7 @@ class InviteController extends Controller
         // Find invitation
         $invite = Invite::where('user_id_receive', '=', $currentId)
             ->where('user_id_sent', '=', $idRequest)
+            ->where('status', '=', self::STATUS_PENDING)
             ->first();
 
         // Set to Approved
@@ -91,12 +92,17 @@ class InviteController extends Controller
         $invite->save();
 
         // Create friend object
+        $mainFriend = new Friend();
+        $mainFriend->main_user = $idRequest;
+        $mainFriend->friend_id = $currentId;
+        $mainFriend->save();
+
         $friend = new Friend();
-        $friend->main_user = $idRequest;
-        $friend->friend_id = $currentId;
+        $friend->main_user = $currentId;
+        $friend->friend_id = $idRequest;
         $friend->save();
 
-        return Redirect::back()->with('success', 'Congratulations! You became his friend!');
+        return Redirect::back()->with('success', 'Congratulations! You became friends!');
     }
 
     /**
@@ -113,6 +119,7 @@ class InviteController extends Controller
         // Find invitation
         $invite = Invite::where('user_id_receive', '=', $currentId)
             ->where('user_id_sent', '=', $idRequest)
+            ->where('status', '=', self::STATUS_PENDING)
             ->orderBy('created_at', 'desc')
             ->first();
 

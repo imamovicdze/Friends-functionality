@@ -18,11 +18,14 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('users', 'REST\UserController@users');
+Route::group(['middleware' => ['auth:api']], function () {
 
-Route::get('send-request&{idSent}&{idReceive}&{status}', 'REST\InviteController@sendRequest');
-Route::get('requests&{idReceive}&{status}', 'REST\InviteController@getRequests');
-Route::get('accept&{idSent}&{idReceive}', 'REST\InviteController@acceptRequest');
-Route::get('decline&{idSent}&{idReceive}', 'REST\InviteController@declineRequest');
+    Route::get('users', 'REST\UserController@users');
 
-Route::get('friends', 'REST\FriendController@friends');
+    Route::get('send-request/{id}', 'REST\InviteController@sendRequest');
+    Route::get('requests', 'REST\InviteController@getRequests');
+    Route::get('accept/{id}', 'REST\InviteController@acceptRequest');
+    Route::get('decline/{id}', 'REST\InviteController@declineRequest');
+
+    Route::get('friends', 'REST\FriendController@friends');
+});

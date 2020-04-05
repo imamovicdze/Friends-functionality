@@ -20,8 +20,19 @@
                         <tr>
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
-                            <td><a href="/send-request/{{ $user->id }}" class="btn btn-outline-dark" role="button">Send
-                                    request</a></td>
+                            @if ($user->status == 'Pending')
+                                <td><a href="#0" class="btn btn-outline-success" role="button" style="pointer-events: none;">Pending</a></td>
+                            @elseif ($user->status == 'Approved')
+                                <td>Friend</td>
+
+                            @elseif ($user->status == 'Declined')
+                                <td>User has declined your request!</td>
+
+                            @else
+                                <td><a href="/send-request/{{ $user->id }}" class="btn btn-outline-dark" role="button">Send
+                                        request</a></td>
+                            @endif
+
                         </tr>
                     @endforeach
                 </table>

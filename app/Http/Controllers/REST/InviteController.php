@@ -6,42 +6,34 @@ use App\Friend;
 use App\Http\Controllers\Controller;
 use App\Invite;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class InviteController extends Controller
 {
+    const STATUS_PENDING = "Pending";
     const STATUS_APPROVED = "Approved";
     const STATUS_DECLINED = "Declined";
 
     /**
-     * Send Request. Function get id of user who sent, id of user who receive and status pending.
-     * If users exists create Request (invitation)
+     * Send friend request to another user
      *
      * @param Request $request
      * @return array
      */
     public function sendRequest(Request $request)
     {
-        $idSent = $request->route('idSent');
-        $idReceive = $request->route('idReceive');
-        $status = $request->route('status');
+        $currentId = Auth::id();
+        $idRequest = $request->route('id');
 
-        $idSentUser = DB::table('users')->where('id', $idSent)->first();
-        $idReceiveUser = DB::table('users')->where('id', $idReceive)->first();
+        $model = new Invite();
+        $model->user_id_sent = $currentId;
+        $model->user_id_receive = $idRequest;
+        $model->status = self::STATUS_PENDING;
 
-        // check if exists user
-        if (isset($idSentUser) && isset($idReceiveUser)) {
-            $model = new Invite();
-            $model->user_id_sent = $idSent;
-            $model->user_id_receive = $idReceive;
-            $model->status = $status;
-            $model->save();
+        $model->save();
 
-            return ['Request send', 'model' => $model];
-
-        } else {
-            return ['Cannot send this invitation!'];
-        }
+        return ['Request send', 'model' => $model];
     }
 
     /**
@@ -52,20 +44,20 @@ class InviteController extends Controller
      */
     public function getRequests(Request $request)
     {
-        $idReceive = $request->route('idReceive');
-        $status = $request->route('status');
+        $currentId = Auth::id();
 
-        $requests = Invite::all()
-            ->where('user_id_receive', '=', $idReceive)
-            ->where('status', '=', $status)
-            ->all();
+        $requests = DB::table('users')
+            ->join('invites', 'invites.user_id_sent', '=', 'users.id')
+            ->where('user_id_receive', '=', $currentId)
+            ->where('status', '=', self::STATUS_PENDING)
+            ->select('users.*')
+            ->get();
 
         return ['requests' => $requests];
     }
 
     /**
-     * Accept request. Function get id of user who sent, id of user who receive.
-     * If Invite exists, set it to Approved and create Friend object.
+     * Accept request. If Invite exists, set it to Approved and create Friend objects.
      *
      * @param Request $request
      * @return array
@@ -73,23 +65,29 @@ class InviteController extends Controller
     public function acceptRequest(Request $request)
     {
 
-        $idSent = $request->route('idSent');
-        $idReceive = $request->route('idReceive');
+        $currentId = Auth::id();
+        $idRequest = $request->route('id');
 
         // Find invitation
-        $invite = Invite::where('user_id_receive', '=', $idReceive)
-            ->where('user_id_sent', '=', $idSent)
+        $invite = Invite::where('user_id_receive', '=', $currentId)
+            ->where('user_id_sent', '=', $idRequest)
+            ->where('status', '=', self::STATUS_PENDING)
             ->first();
 
-        // Set to Approved Invite
         if (isset($invite)) {
+            // Set to Approved
             $invite->status = self::STATUS_APPROVED;
             $invite->save();
 
             // Create friend object
+            $mainFriend = new Friend();
+            $mainFriend->main_user = $idRequest;
+            $mainFriend->friend_id = $currentId;
+            $mainFriend->save();
+
             $friend = new Friend();
-            $friend->main_user = $idSent;
-            $friend->friend_id = $idReceive;
+            $friend->main_user = $currentId;
+            $friend->friend_id = $idRequest;
             $friend->save();
 
             return ['Successfully updated invitation & created friend', 'friend' => $friend];
@@ -99,25 +97,25 @@ class InviteController extends Controller
     }
 
     /**
-     * Decline request. Function get id of user who sent, id of user who receive.
-     * If Invite exists, set it to Declined.
+     * Decline request. If Invite exists, set it to Declined.
      *
      * @param Request $request
      * @return array
      */
     public function declineRequest(Request $request)
     {
-        $idSent = $request->route('idSent');
-        $idReceive = $request->route('idReceive');
+        $currentId = Auth::id();
+        $idRequest = $request->route('id');
 
         // Find invitation
-        $invite = Invite::where('user_id_receive', '=', $idReceive)
-            ->where('user_id_sent', '=', $idSent)
+        $invite = Invite::where('user_id_receive', '=', $currentId)
+            ->where('user_id_sent', '=', $idRequest)
+            ->where('status', '=', self::STATUS_PENDING)
             ->orderBy('created_at', 'desc')
             ->first();
 
-        // Set to Declined Invite
         if (isset($invite)) {
+            // Set to Declined
             $invite->status = self::STATUS_DECLINED;
             $invite->save();
 
