@@ -15,7 +15,7 @@ use Illuminate\Support\Str;
 class UserController extends Controller
 {
     /**
-     * Show all users and their status except friends
+     * Get all users and their status except friends
      *
      */
     public function users()

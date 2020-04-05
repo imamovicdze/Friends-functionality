@@ -37,7 +37,7 @@ class InviteController extends Controller
     }
 
     /**
-     * Get all pending requests for current user
+     * All pending requests for currently logged in user
      *
      * @param Request $request
      * @return array

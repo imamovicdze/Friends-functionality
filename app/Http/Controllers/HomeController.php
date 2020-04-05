@@ -32,7 +32,7 @@ class HomeController extends Controller
     }
 
     /**
-     * Show all users and their status except friends
+     * Get all users and their status except friends
      *
      * @return Renderable
      */

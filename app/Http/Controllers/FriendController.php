@@ -20,7 +20,7 @@ class FriendController extends Controller
     }
 
     /**
-     * Get all friends for current user
+     * All friends for currently logged in user
      *
      */
     public function getFriends()
