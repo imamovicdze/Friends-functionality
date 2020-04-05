@@ -4,9 +4,12 @@ namespace App\Http\Controllers\REST;
 
 use App\Http\Controllers\Controller;
 use App\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -26,5 +29,30 @@ class UserController extends Controller
         });
 
         return response()->json($users, 200);
+    }
+
+    /**
+     * Register user
+     *
+     * @param Request $request
+     * @return array|JsonResponse
+     */
+    public function register(Request $request) {
+
+        $isExist = User::where('email', $request->post('email')) -> first();
+
+        if (empty($isExist)) {
+
+            $user = User::forceCreate([
+                'name' => $request->post('name'),
+                'email' => $request->post('email'),
+                'password' => Hash::make($request->post('password')),
+                'api_token' => Str::random(80),
+            ]);
+
+            return (!empty($user)) ? response()->json($user, 200) : (['Cannot register user!']);
+        } else {
+            return ['Email already exist!'];
+        }
     }
 }
