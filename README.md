@@ -9,8 +9,8 @@ This is solution for task that I received for PHP Developer Position.
 - Chorme or Firefox browser
 
 #### RESTful APIs
-- Documentation -  [https://imamovicdze.github.io/friendsapp-docs/](https://imamovicdze.github.io/friendsapp-docs/)
-- Additional Postman API Example - 
+- Documentation - [https://imamovicdze.github.io/friendsapp-docs/](https://imamovicdze.github.io/friendsapp-docs/)
+- Additional Postman API Example - [Friends-functionality.postman_collection.json](https://github.com/imamovicdze/Friends-functionality/blob/master/Friends-functionality.postman_collection.json)
 
 ## Versions
 * PHP 7.4
