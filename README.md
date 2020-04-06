@@ -8,6 +8,10 @@ This is solution for task that I received for PHP Developer Position.
 - Composer [https://getcomposer.org/](https://getcomposer.org/)
 - Chorme or Firefox browser
 
+#### RESTful APIs
+- Documentation -  [https://imamovicdze.github.io/friendsapp-docs/](https://imamovicdze.github.io/friendsapp-docs/)
+- Additional Postman API Example - 
+
 ## Versions
 * PHP 7.4
 * Laravel 7
