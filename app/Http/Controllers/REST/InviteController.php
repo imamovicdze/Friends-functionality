@@ -81,16 +81,16 @@ class InviteController extends Controller
 
             // Create friend object
             $mainFriend = new Friend();
-            $mainFriend->main_user = $idRequest;
+            $mainFriend->main_user = (int)$idRequest;
             $mainFriend->friend_id = $currentId;
             $mainFriend->save();
 
             $friend = new Friend();
             $friend->main_user = $currentId;
-            $friend->friend_id = $idRequest;
+            $friend->friend_id = (int)$idRequest;
             $friend->save();
 
-            return response()->json($friend, 200);
+            return response()->json($mainFriend, 200);
         } else {
             return response()->json(['error' => 'Cannot find this invitation!'], 404);
         }
