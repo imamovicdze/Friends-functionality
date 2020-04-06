@@ -4,6 +4,7 @@ namespace App\Http\Controllers\REST;
 
 use App\Friend;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -14,6 +15,7 @@ class FriendController extends Controller
     /**
      * All friends for currently logged in user
      *
+     * @return JsonResponse
      */
     public function friends()
     {

@@ -36,7 +36,7 @@ class UserController extends Controller
      * Register user
      *
      * @param Request $request
-     * @return array|JsonResponse
+     * @return JsonResponse
      */
     public function register(Request $request)
     {
@@ -62,7 +62,7 @@ class UserController extends Controller
           ]);
           return response()->json(['success' => $user], 200);
       } else {
-          return ['Email already exist!'];
+          return response()->json(['error' => 'Email already exist'], 404);
       }
     }
 
