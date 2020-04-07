@@ -48,6 +48,8 @@ Now you run command:
 
 ### Docker start
 
+Change `.env.example` to `.env`, next
+
 Use  `cd laradock` folder and run following command:
 
 `docker-compose up -d nginx mysql phpmyadmin workspace` to start docker.
