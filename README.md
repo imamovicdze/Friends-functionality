@@ -48,18 +48,8 @@ Now you run command:
 
 ### Docker start
 
-Create database with name:
+Use  `cd laradock` folder and run following command:
 
-`friends`
+`docker-compose up -d nginx mysql phpmyadmin workspace` to start docker.
 
-First we build the docker container and resources with the following command, where test is the name of the container
-and `.` refers to the whole application
-
-`docker build -t test .`
-
-With the following command we run the docker instance inside the container with the parameter `-p`
-that points to the port that the application is going to be using:
-
-`docker run -p 8181:8181 test`
-
-Now go to: **`http://localhost:8181`**
+Now go to: **`http://localhost`**
