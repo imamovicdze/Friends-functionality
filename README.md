@@ -1,6 +1,13 @@
 # Hygge Software for PHP Developer Position 
 
 This is solution for task that I received for PHP Developer Position.
+### Clone repository
+Since this github repository contains also submodules you will have to either use `--recursive` 
+or clone it regullary and then use `git submodule init`. 
+
+##### Use one of the following two options
+- `git clone --recursive https://github.com/imamovicdze/Friends-functionality.git`
+- or use `git submodule init` command after you already clone.
 
 #### To run this application you will need:
 - MAMP or XAMPP or WAMP
@@ -20,7 +27,7 @@ This is solution for task that I received for PHP Developer Position.
 
 You need to download or clone this repo using link below:
 
-`https://github.com/imamovicdze/Friends-functionality.git`
+`git clone --recursive https://github.com/imamovicdze/Friends-functionality.git`
 
 Then
 
