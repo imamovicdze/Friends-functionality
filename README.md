@@ -55,9 +55,13 @@ Now you run command:
 
 ### Docker start
 
-Change `.env.example` to `.env`, next
+Laradock is a full PHP development environment based on Docker.
 
-Use  `cd laradock` folder and run following command:
+[https://laradock.io/](https://laradock.io/)
+
+Run `composer install` then
+
+Use `cd laradock` folder and run following command:
 
 `docker-compose up -d nginx mysql phpmyadmin workspace` to start docker.
 
